@@ -289,6 +289,7 @@ public class JIoEndpoint extends AbstractEndpoint {
         @Override
         public void run() {
             boolean launch = false;
+            // 对socket枷锁，减小锁竞争
             synchronized (socket) {
                 try {
                     SocketState state = SocketState.OPEN;

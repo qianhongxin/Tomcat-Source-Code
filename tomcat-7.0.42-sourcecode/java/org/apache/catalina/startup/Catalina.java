@@ -297,6 +297,7 @@ public class Catalina {
     /**
      * Create and configure the Digester we will be using for startup.
      */
+    // Digester是tomcat项目组对SAX解析xml的一层封装
     protected Digester createStartDigester() {
         long t1=System.currentTimeMillis();
         // Initialize the digester
@@ -541,11 +542,11 @@ public class Catalina {
     public void load() {
 
         long t1 = System.nanoTime();
-
+        // 设置catalina的home和base目录，如果启动时没指定，他会按照自己的逻辑创建
         initDirs();
 
         // Before digester - it may be needed
-
+        // fixme
         initNaming();
 
         // Create and execute our Digester
@@ -613,7 +614,8 @@ public class Catalina {
         try {
             inputSource.setByteStream(inputStream);
             digester.push(this);
-            digester.parse(inputSource);// 此方法和 createStartDigester 对应,是解析或加载 server.xml 重要的步骤. 并初始化 Server
+            // 此方法和 createStartDigester 对应,是解析或加载 server.xml 重要的步骤. 并初始化 Server
+            digester.parse(inputSource);
         } catch (SAXParseException spe) {
             log.warn("Catalina.start using " + getConfigFile() + ": " +
                     spe.getMessage());
@@ -793,7 +795,7 @@ public class Catalina {
 
     }
 
-
+    // 设置catalina的home和base目录，如果启动时没指定，他会按照自己的逻辑创建
     protected void initDirs() {
 
         String catalinaHome = System.getProperty(Globals.CATALINA_HOME_PROP);

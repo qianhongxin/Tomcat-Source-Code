@@ -586,6 +586,7 @@ public abstract class AbstractProtocol implements ProtocolHandler,
                     } else if (processor.isUpgrade()) {
                         state = processor.upgradeDispatch(); // 升级转发？？？
                     } else {
+                        // 重点，执行
                         state = processor.process(socket); // 默认的 AbstractHttp11Processor.process
                     }
     

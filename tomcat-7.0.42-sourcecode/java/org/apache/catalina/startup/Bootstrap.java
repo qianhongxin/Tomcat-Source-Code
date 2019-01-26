@@ -481,6 +481,7 @@ public final class Bootstrap {
             }
             else if (command.equals("start")) {
                 daemon.setAwait(true);
+                // 加载各种容器组件，直接反射创建
                 daemon.load(args);
                 daemon.start();
             } else if (command.equals("stop")) {
