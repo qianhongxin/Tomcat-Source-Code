@@ -546,7 +546,7 @@ public final class Bootstrap {
      */
     private void setCatalinaHome() {
 
-        // 获取到 Catalina-home
+        // 获取到 Catalina-home，System.getProperty获取的就是我们启动程序时的入参
         if (System.getProperty(Globals.CATALINA_HOME_PROP) != null)
             return;
         // 如果获取不到 Catalina Home
@@ -563,7 +563,7 @@ public final class Bootstrap {
                      .getCanonicalPath());
             } catch (Exception e) {
                 // Ignore
-              // 如果错误则设置项目根目录路
+              // 如果错误则设置项目根目录路径
                 System.setProperty(Globals.CATALINA_HOME_PROP,
                                    System.getProperty("user.dir"));
             }
@@ -602,5 +602,6 @@ public final class Bootstrap {
             throw (VirtualMachineError) t;
         }
         // All other instances of Throwable will be silently swallowed
+        // 非虚拟机异常，线程异常，等，都吞噬，即不抛出
     }
 }
