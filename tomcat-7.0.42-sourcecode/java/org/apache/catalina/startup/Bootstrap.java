@@ -472,7 +472,9 @@ public final class Bootstrap {
             }
             if (command.equals("startd")) {
                 args[args.length - 1] = "start";
+                // 反射调用Catalina对象的init方法，会依次调用各个组件的initInternal方法
                 daemon.load(args);
+                // 反射调用Catalina对象的start方法，会依次调用各个组件的startInternal方法
                 daemon.start();
             }
             else if (command.equals("stopd")) {

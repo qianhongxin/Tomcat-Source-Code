@@ -559,17 +559,21 @@ public abstract class AbstractProtocol implements ProtocolHandler,
                 return SocketState.CLOSED;
             }
 
-            socket.setAsync(false);// 非异步
+            // 非异步
+            socket.setAsync(false);
 
             try {
                 if (processor == null) {
-                    processor = recycledProcessors.poll();// 如果从缓存中没取到，从可以循环使用的 ConcurrentLinkedQueue 获取
+                    // 如果从缓存中没取到，从可以循环使用的 ConcurrentLinkedQueue 获取
+                    processor = recycledProcessors.poll();
                 }
                 if (processor == null) {
-                    processor = createProcessor(); // 如果还没有，则创建一个
+                    // 如果还没有，则创建一个
+                    processor = createProcessor();
                 }
 
-                initSsl(socket, processor); // 设置SSL 属性，默认为null，可以配置
+                // 设置SSL 属性，默认为null，可以配置
+                initSsl(socket, processor);
 
                 SocketState state = SocketState.CLOSED;
                 do {

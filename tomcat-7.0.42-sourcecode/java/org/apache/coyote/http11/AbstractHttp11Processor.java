@@ -1020,7 +1020,8 @@ public abstract class AbstractHttp11Processor<S> extends AbstractProcessor<S> {
             if (!error) {
                 try {
                     rp.setStage(org.apache.coyote.Constants.STAGE_SERVICE);
-                    adapter.service(request, response); // 真正处理的方法 CoyoteAdapter
+                    // 真正处理的方法 CoyoteAdapter
+                    adapter.service(request, response);
                     // 还记的初始化Connector 时的适配器吗，new Http11Protocol(new CoyoteAdapter(new Connector（JIoEndpoint）))
 
                     // Handle when the response was committed before a serious

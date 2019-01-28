@@ -213,6 +213,7 @@ public class JIoEndpoint extends AbstractEndpoint {
                     try {
                         // Accept the next incoming connection from the server
                         // socket
+                        // 阻塞等待接收客户端请求
                         socket = serverSocketFactory.acceptSocket(serverSocket);
                     } catch (IOException ioe) {
                         countDownConnection();
@@ -227,6 +228,7 @@ public class JIoEndpoint extends AbstractEndpoint {
                     // Configure the socket
                     if (running && !paused && setSocketOptions(socket)) {
                         // Hand this socket off to an appropriate processor
+                        // 执行创建的socket
                         if (!processSocket(socket)) {
                             countDownConnection();
                             // Close socket right away
@@ -310,6 +312,7 @@ public class JIoEndpoint extends AbstractEndpoint {
                         if (status == null) { // status == null
                             state = handler.process(socket, SocketStatus.OPEN);// AbstractProtocol.process(); state 变为 close
                         } else { // handler == Http11Protocol$Http11ConnectionHandler
+                            // 执行请求
                             state = handler.process(socket,status); // state = closed
                         }
                     }
@@ -517,12 +520,14 @@ public class JIoEndpoint extends AbstractEndpoint {
     protected boolean processSocket(Socket socket) {
         // Process the request from this socket
         try {
+            // 把 socket 封装成 SocketWrapper
             SocketWrapper<Socket> wrapper = new SocketWrapper<Socket>(socket);
             wrapper.setKeepAliveLeft(getMaxKeepAliveRequests());
             // During shutdown, executor may be null - avoid NPE
             if (!running) {
                 return false;
             }
+            // SocketProcessor就是待执行的Runnable
             getExecutor().execute(new SocketProcessor(wrapper));
         } catch (RejectedExecutionException x) {
             log.warn("Socket processing request was rejected for:"+socket,x);

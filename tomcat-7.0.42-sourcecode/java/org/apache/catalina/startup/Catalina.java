@@ -723,6 +723,7 @@ public class Catalina {
             if (shutdownHook == null) {
                 shutdownHook = new CatalinaShutdownHook();
             }
+            // 运行时类的钩子方法
             Runtime.getRuntime().addShutdownHook(shutdownHook);
 
             // If JULI is being used, disable JULI's shutdown hook since
@@ -775,7 +776,9 @@ public class Catalina {
                     && LifecycleState.DESTROYED.compareTo(state) >= 0) {
                 // Nothing to do. stop() was already called
             } else {
+                //调用停止方法
                 s.stop();
+                //调用销毁方法
                 s.destroy();
             }
         } catch (LifecycleException e) {
@@ -920,6 +923,7 @@ public class Catalina {
         @Override
         public void run() {
             try {
+                // Server是最外层容器，调用stop方法，会调用stop和destory方法，会依次调用依赖子组建的stopInternal，destoryInternal方法
                 if (getServer() != null) {
                     Catalina.this.stop();
                 }

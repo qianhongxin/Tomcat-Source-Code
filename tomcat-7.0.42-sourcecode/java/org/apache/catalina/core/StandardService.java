@@ -131,6 +131,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
 
         Container oldContainer = this.container;
         if ((oldContainer != null) && (oldContainer instanceof Engine))
+            // 对引用置空，便于垃圾回收
             ((Engine) oldContainer).setService(null);
         this.container = container;
         if ((this.container != null) && (this.container instanceof Engine))
