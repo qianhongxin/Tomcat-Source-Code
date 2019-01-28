@@ -613,8 +613,21 @@ public class Catalina {
 
         try {
             inputSource.setByteStream(inputStream);
+            // 这一句是为了在解析xml时，将创建的server对象放入this的server字段中
             digester.push(this);
             // 此方法和 createStartDigester 对应,是解析或加载 server.xml 重要的步骤. 并初始化 Server
+            // 初始化server时，会创建Service对象，即掉用StandServer的addService方法
+
+            /**
+             * 这样经过对 xml 文件的解析将会产生 org.apache.catalina.core.StandardServer、
+             * org.apache.catalina.core.StandardService、
+             * org.apache.catalina.connector.Connector、
+             * org.apache.catalina.core.StandardEngine、
+             * org.apache.catalina.core.StandardHost、
+             * org.apache.catalina.core.StandardContext 等等一系列对象，
+             * 这些对象从前到后前一个包含后一个对象的引用（一对一或一对多的关系）。
+             * 参见：http://www.iocoder.cn/Tomcat/yuliu/Start-analysis-3-Digester/
+             */
             digester.parse(inputSource);
         } catch (SAXParseException spe) {
             log.warn("Catalina.start using " + getConfigFile() + ": " +
