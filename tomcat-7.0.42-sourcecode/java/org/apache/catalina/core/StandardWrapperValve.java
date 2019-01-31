@@ -91,6 +91,21 @@ final class StandardWrapperValve
      * @exception IOException if an input/output error occurred
      * @exception ServletException if a servlet error occurred
      */
+    /**
+     * 我们分析一下该方法的重要步骤：
+     *
+     * 获取 StandardWrapper（封装了Servlet） 实例调用 allocate 方法获取 Stack 中的 Servlet 实例；
+     * 判断servlet 是否实现了 CometProcessor 接口，如果实现了则设置 request 的comet（Comet：基于 HTTP 长连接的“服务器推”技术） 属性为 true。
+     * 获取 ApplicationFilterFactory 单例（注意：这个获取单例的代码是有线程安全问题的），调用该单例的 createFilterChain 方法获取 ApplicationFilterChain 过滤器链实例。
+     * 执行过滤器链 filterChain 的 doFilter 方法。该方法会循环执行所有的过滤器，最终执行 servlet 的 servie 方法。
+     * http://thinkinjava.cn/2017/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Tomcat-%E4%B9%9D-%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E4%B9%8B%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/
+     *
+     * @param request The servlet request to be processed
+     * @param response The servlet response to be created
+     *
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public final void invoke(Request request, Response response)
         throws IOException, ServletException {
@@ -133,6 +148,7 @@ final class StandardWrapperValve
         // Allocate a servlet instance to process this request
         try {
             if (!unavailable) {
+                // 分配servlet实例去执行请求
                 servlet = wrapper.allocate();
             }
         } catch (UnavailableException e) {
@@ -202,6 +218,7 @@ final class StandardWrapperValve
                             filterChain.doFilterEvent(request.getEvent());
                             request.setComet(true);
                         } else {
+                            // 执行过滤器链 filterChain 的 doFilter 方法。该方法会循环执行所有的过滤器，最终执行 servlet 的 servie 方法。
                             filterChain.doFilter(request.getRequest(), 
                                     response.getResponse());
                         }

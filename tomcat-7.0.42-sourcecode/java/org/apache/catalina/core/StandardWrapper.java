@@ -841,6 +841,7 @@ public class StandardWrapper extends ContainerBase
      *  an exception
      * @exception ServletException if a loading error occurs
      */
+    // 初始化我们写的 servlet
     @Override
     public Servlet allocate() throws ServletException {
 

@@ -239,7 +239,8 @@ final class ApplicationFilterChain implements FilterChain, CometFilterChain {
                     SecurityUtil.doAsPrivilege
                         ("doFilter", filter, classType, args, principal);
                     
-                } else {  
+                } else {
+                    // 调用filter的doFilter方法，有多个filter就是递归调用，最后一个filter调用完，根据pos和n做比较
                     filter.doFilter(request, response, this);
                 }
 
@@ -273,6 +274,8 @@ final class ApplicationFilterChain implements FilterChain, CometFilterChain {
         }
 
         // We fell off the end of the chain -- call the servlet instance
+        // 如果filter执行完了，就执行servlet。在写filter时，dofilter方法的最后是调用chain.doFilter(request, response);
+        // 一次调用只能调用一个servlet
         try {
             if (ApplicationDispatcher.WRAP_SAME_OBJECT) {
                 lastServicedRequest.set(request);
@@ -305,6 +308,7 @@ final class ApplicationFilterChain implements FilterChain, CometFilterChain {
                     servlet.service(request, response);
                 }
             } else {
+                //调用serlet的service方法
                 servlet.service(request, response);
             }
             support.fireInstanceEvent(InstanceEvent.AFTER_SERVICE_EVENT,

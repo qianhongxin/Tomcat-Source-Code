@@ -73,6 +73,7 @@ import javax.servlet.ServletResponse;
  * @author  Various
  * @version $Version$
  */
+// 对GenericServlet抽象实现，基于Http协议
 public abstract class HttpServlet extends GenericServlet {
 
     private static final long serialVersionUID = 1L;

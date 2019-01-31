@@ -39,6 +39,7 @@ import java.util.Enumeration;
  * 
  * @version $Version$
  */
+// 对Servlet的抽象实现基类，提取出公共的字段，方法实现等
 public abstract class GenericServlet implements Servlet, ServletConfig,
         java.io.Serializable {
 
