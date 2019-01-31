@@ -188,6 +188,8 @@ public class JIoEndpoint extends AbstractEndpoint {
             int errorDelay = 0;
 
             // Loop until we receive a shutdown command
+            // 让一个线程一致运行的方式是循环，线程外部通过共享变量（这里是running），根据条件停止循环
+            // 还有就是暴力停止，即结束进程，或者手动调用线程的stop等方法
             while (running) {
 
                 // Loop if endpoint is paused
@@ -207,6 +209,7 @@ public class JIoEndpoint extends AbstractEndpoint {
 
                 try {
                     //if we have reached max connections, wait
+                    // 当连接数达到最大时，等待 fixme
                     countUpOrAwaitConnection();
 
                     Socket socket = null;
@@ -528,6 +531,8 @@ public class JIoEndpoint extends AbstractEndpoint {
                 return false;
             }
             // SocketProcessor就是待执行的Runnable
+            // 默认最大支持200个线程。如果并发超过200，比如几百万，那就需要主动限流，加服务器等的了，否则用户等到的就是卡，请求没反应
+            // 请求没反应可能是服务器处理不了直接返回错误，还有就是服务器卡死了，请求出错等
             getExecutor().execute(new SocketProcessor(wrapper));
         } catch (RejectedExecutionException x) {
             log.warn("Socket processing request was rejected for:"+socket,x);

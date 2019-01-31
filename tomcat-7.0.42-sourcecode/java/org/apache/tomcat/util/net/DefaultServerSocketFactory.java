@@ -57,6 +57,7 @@ public class DefaultServerSocketFactory implements ServerSocketFactory {
 
     @Override
     public Socket acceptSocket(ServerSocket socket) throws IOException {
+        //这是一个阻塞方法，阻塞等待连接
         return socket.accept();
     }
 
