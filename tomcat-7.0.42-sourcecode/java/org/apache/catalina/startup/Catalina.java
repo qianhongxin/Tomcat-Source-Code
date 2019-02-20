@@ -646,6 +646,7 @@ public class Catalina {
             }
         }
 
+        // 设置Server的父级是this，即catalina对象
         getServer().setCatalina(this);
 
         // Stream redirection
@@ -653,6 +654,7 @@ public class Catalina {
 
         // Start the new server
         try {
+            // 调用init方法初始化，依次调用子容器，子组件进行初始化
             getServer().init();
         } catch (LifecycleException e) {
             if (Boolean.getBoolean("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE")) {
