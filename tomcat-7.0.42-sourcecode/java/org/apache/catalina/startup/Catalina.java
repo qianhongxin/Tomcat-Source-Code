@@ -627,6 +627,8 @@ public class Catalina {
              * org.apache.catalina.core.StandardContext 等等一系列对象，
              * 这些对象从前到后前一个包含后一个对象的引用（一对一或一对多的关系）。
              * 参见：http://www.iocoder.cn/Tomcat/yuliu/Start-analysis-3-Digester/
+             *
+             * 这里是解析xml产生对象，spring也是这中方式，知不多spring更丰富点，出发点不一样
              */
             digester.parse(inputSource);
         } catch (SAXParseException spe) {
