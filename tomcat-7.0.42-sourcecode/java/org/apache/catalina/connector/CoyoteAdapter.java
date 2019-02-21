@@ -411,7 +411,7 @@ public class CoyoteAdapter implements Adapter {
                 // fixme 需要串联起来？？？todo
                 // 通过connector找到service，找到container，然后调用pipeline，value等
                 // tomcat是服务器，acceptor接收请求调用adapter的service，然后根据配置的service，
-                // container中的host，engine，context，wrapper等组件，找到与请求request相匹配的组件
+                // container中的engine，host，context，wrapper等组件，找到与请求request相匹配的组件
                 // ，然后掉用filter，lister，servlet到我们的自己代码等
                 //（container下的组件有管道和阀的概念，这个东西是我们可以在xml配置的，不配置的话有basic阀等
                 // http://www.iocoder.cn/Tomcat/yuliu/A-request-analysis-4-Tomcat-7-valve-mechanism-principle/）
