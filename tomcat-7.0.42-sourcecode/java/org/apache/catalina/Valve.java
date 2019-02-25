@@ -43,7 +43,7 @@ import org.apache.catalina.connector.Response;
  * @author Peter Donald
  * @version $Id: Valve.java 987920 2010-08-22 15:34:34Z markt $
  */
-
+// 有单链表的特征
 public interface Valve {
 
 
