@@ -182,6 +182,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
      * themselves or other listeners and with a ReadWriteLock that would trigger
      * a deadlock.
      */
+    // 订阅当前container的观察者，即listeners，在server.xml中配置的
     protected List<ContainerListener> listeners =
             new CopyOnWriteArrayList<ContainerListener>();
 
@@ -1394,6 +1395,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
 
         ContainerEvent event = new ContainerEvent(this, type, data);
         // Note for each uses an iterator internally so this is safe
+        // 观察者模式实现事件机制
         for (ContainerListener listener : listeners) {
             listener.containerEvent(event);
         }

@@ -65,6 +65,7 @@ public class StandardEngine extends ContainerBase implements Engine {
     public StandardEngine() {
 
         super();
+        // 设置pipeline的basic阀，每个container都默认都设置了basic阀，basic是两个container之间最后一个流经的阀
         pipeline.setBasic(new StandardEngineValve());
         /* Set the jmvRoute using the system property jvmRoute */
         try {

@@ -355,6 +355,7 @@ public class StandardPipeline extends LifecycleBase
     public void addValve(Valve valve) {
     
         // Validate that we can add this Valve
+        // 如果 valve 是Contained类型，就添加容器
         if (valve instanceof Contained)
             ((Contained) valve).setContainer(this.container);
 
@@ -370,12 +371,14 @@ public class StandardPipeline extends LifecycleBase
         }
 
         // Add this Valve to the set associated with this Pipeline
+        // valve有单链表的特征，设置单链表的next
         if (first == null) {
             first = valve;
             valve.setNext(basic);
         } else {
             Valve current = first;
             while (current != null) {
+                //如果下一个阀是basic，就直接插入二者之间，break。否则的话 current = current.getNext()
                 if (current.getNext() == basic) {
                     current.setNext(valve);
                     valve.setNext(basic);
@@ -384,7 +387,8 @@ public class StandardPipeline extends LifecycleBase
                 current = current.getNext();
             }
         }
-        
+
+        // 发送 add valve 的事件给监听这个事件的监听器
         container.fireContainerEvent(Container.ADD_VALVE_EVENT, valve);
     }
 
@@ -398,7 +402,9 @@ public class StandardPipeline extends LifecycleBase
     public Valve[] getValves() {
 
         ArrayList<Valve> valveList = new ArrayList<Valve>();
+        // 从first开始遍历
         Valve current = first;
+        // 如果first是null，则pipeline中只有一个基础阀，则只要将basic放入即可
         if (current == null) {
             current = basic;
         }
@@ -437,10 +443,12 @@ public class StandardPipeline extends LifecycleBase
      *
      * @param valve Valve to be removed
      */
+    // valve的删除，这是给jmx，tomcat的lifecycle生命周期钩子调用的，可以动态的管理tomcat的valve，实时生效。比如zuul的filter管理也类似
     @Override
     public void removeValve(Valve valve) {
 
         Valve current;
+        //这里保证basic的valve还在
         if(first == valve) {
             first = first.getNext();
             current = null;
@@ -485,7 +493,7 @@ public class StandardPipeline extends LifecycleBase
         if (first != null) {
             return first;
         }
-        
+        // basic的下一个就是null，调用他的invoke就直接调用下一个container
         return basic;
     }
 }
