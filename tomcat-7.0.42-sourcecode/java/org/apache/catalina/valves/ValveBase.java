@@ -52,6 +52,7 @@ import org.apache.tomcat.util.res.StringManager;
  * 比如RequestFilterValve阀：<ul> * <li>子类提取要过滤的请求属性，*调用公共<code> process（）</ code>方法。 * <li>如果配置了拒绝表达式，则将该属性与表达式进行比较*。如果找到匹配项，则此请求将被拒绝*并带有“禁止”HTTP响应。</ li> * <li>如果配置了允许表达式，则将该属性与每个此类表达式进行比较*。如果找到匹配项，则该请求将被允许传递到当前管道中的下一个Valve。</ li> * <li>如果指定了拒绝表达式但没有允许表达式，则允许此*请求通过（因为没有任何拒绝表达式匹配*它）。 * <li>请求将被“禁止”HTTP响应拒绝。</ li> * </ ul>
  * 所以阀Valve就类似于filter，incepeter，都是对到达下一个阀之前做处理。这些的共同点是都是用的责任链模式。
  *
+ * Valve就是拦截器
  */
 public abstract class ValveBase extends LifecycleMBeanBase
     implements Contained, Valve {
