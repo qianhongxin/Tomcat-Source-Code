@@ -180,6 +180,7 @@ public class JIoEndpoint extends AbstractEndpoint {
      * The background thread that listens for incoming TCP/IP connections and
      * hands them off to an appropriate processor.
      */
+    // 一个线程循环等待socket，然后处理。默认的创建两个请求接收线程
     protected class Acceptor extends AbstractEndpoint.Acceptor {
 
         @Override
@@ -188,7 +189,7 @@ public class JIoEndpoint extends AbstractEndpoint {
             int errorDelay = 0;
 
             // Loop until we receive a shutdown command
-            // 让一个线程一致运行的方式是循环，线程外部通过共享变量（这里是running），根据条件停止循环
+            // 让一个线程一直运行的方式是循环，线程外部通过共享变量（这里是running），根据条件停止循环
             // 还有就是暴力停止，即结束进程，或者手动调用线程的stop等方法
             while (running) {
 
@@ -432,12 +433,16 @@ public class JIoEndpoint extends AbstractEndpoint {
 
             initializeConnectionLatch();
 
+            // 创建请求线程
             startAcceptorThreads();
 
             // Start async timeout thread
+            // 创建线程
             Thread timeoutThread = new Thread(new AsyncTimeout(),
                     getName() + "-AsyncTimeout");
+            // 设置线程优先级
             timeoutThread.setPriority(threadPriority);
+            // 设置线程为后台线程
             timeoutThread.setDaemon(true);
             timeoutThread.start();
         }

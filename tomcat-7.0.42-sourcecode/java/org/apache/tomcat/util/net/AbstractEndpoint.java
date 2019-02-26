@@ -620,10 +620,12 @@ public abstract class AbstractEndpoint {
         startInternal();
     }
 
+    //创建接收请求的线程
     protected final void startAcceptorThreads() {
         int count = getAcceptorThreadCount();
         acceptors = new Acceptor[count];
 
+        //根据count数量创建线程
         for (int i = 0; i < count; i++) {
             acceptors[i] = createAcceptor();
             String threadName = getName() + "-Acceptor-" + i;
