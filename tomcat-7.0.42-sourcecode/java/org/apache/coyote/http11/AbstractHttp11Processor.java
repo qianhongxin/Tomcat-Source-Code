@@ -936,6 +936,7 @@ public abstract class AbstractHttp11Processor<S> extends AbstractProcessor<S> {
 
                 if (endpoint.isPaused()) {
                     // 503 - Service unavailable
+                    // 503 - 服务暂停
                     response.setStatus(503);
                     error = true;
                 } else {
@@ -995,7 +996,7 @@ public abstract class AbstractHttp11Processor<S> extends AbstractProcessor<S> {
                 // Setting up filters, and parse some request headers
                 rp.setStage(org.apache.coyote.Constants.STAGE_PREPARE);
                 try {
-                    prepareRequest();// 准备请求内容
+                    prepareRequest();// 准备请求内容，做了一些校验，比如校验http的url是否符合规范，这些东西tomcat做好了
                 } catch (Throwable t) {
                     ExceptionUtils.handleThrowable(t);
                     if (getLog().isDebugEnabled()) {
@@ -1016,7 +1017,7 @@ public abstract class AbstractHttp11Processor<S> extends AbstractProcessor<S> {
                 keepAlive = false;
             }
 
-            // Process the request in the adapter
+            // Process the request in the adapter（适配执行请求，即执行servlet）
             if (!error) {
                 try {
                     rp.setStage(org.apache.coyote.Constants.STAGE_SERVICE);
