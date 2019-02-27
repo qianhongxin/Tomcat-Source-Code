@@ -848,6 +848,7 @@ public abstract class AbstractHttp11Processor<S> extends AbstractProcessor<S> {
             // Stop further HTTP output
             getOutputBuffer().finished = true;
         } else {
+            // 实际掉用
             actionInternal(actionCode, param);
         }
     }

@@ -454,6 +454,7 @@ public class Http11AprProcessor extends AbstractHttp11Processor<Long> {
         } else if (actionCode == ActionCode.COMET_END) {
             comet = false;
         } else if (actionCode == ActionCode.COMET_CLOSE) {
+            //执行socket
             ((AprEndpoint)endpoint).processSocketAsync(this.socket,
                     SocketStatus.OPEN);
         } else if (actionCode == ActionCode.COMET_SETTIMEOUT) {
