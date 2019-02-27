@@ -408,7 +408,6 @@ public class CoyoteAdapter implements Adapter {
                 //check valves if we support async
                 request.setAsyncSupported(connector.getService().getContainer().getPipeline().isAsyncSupported());
                 // Calling the container 调用 容器
-                // fixme 需要串联起来？？？todo
                 // 通过connector找到service，找到container，然后调用pipeline，value等
                 // tomcat是服务器，acceptor接收请求调用adapter的service，然后根据配置的service，
                 // container中的engine，host，context，wrapper等组件，找到与请求request相匹配的组件

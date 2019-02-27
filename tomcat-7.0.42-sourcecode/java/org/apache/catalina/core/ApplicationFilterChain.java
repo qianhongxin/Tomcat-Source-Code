@@ -217,10 +217,12 @@ final class ApplicationFilterChain implements FilterChain, CometFilterChain {
 
         // Call the next filter if there is one
         if (pos < n) {
+            //用pos和n来模拟数组效果，解耦合
             ApplicationFilterConfig filterConfig = filters[pos++];
             Filter filter = null;
             try {
                 filter = filterConfig.getFilter();
+                //servlet的listener也是这样做到的，对可以监听的事件，tomcat做了提前的fire，开发人员写对应的监听器（观察者）即可。
                 support.fireInstanceEvent(InstanceEvent.BEFORE_FILTER_EVENT,
                                           filter, request, response);
                 
@@ -241,6 +243,7 @@ final class ApplicationFilterChain implements FilterChain, CometFilterChain {
                     
                 } else {
                     // 调用filter的doFilter方法，有多个filter就是递归调用，最后一个filter调用完，根据pos和n做比较
+                    // 如果其中某一个filter调用后，没有执行chain.dofilter,就直接递归返回了
                     filter.doFilter(request, response, this);
                 }
 
@@ -270,11 +273,12 @@ final class ApplicationFilterChain implements FilterChain, CometFilterChain {
                 throw new ServletException
                   (sm.getString("filterChain.filter"), e);
             }
+            //pos < n, 当pos小于n时，chain.dofilter方法总会返回的。如果pos >= n,这个if就不会执行了，chain就直接执行后面的servlet了
             return;
         }
 
         // We fell off the end of the chain -- call the servlet instance
-        // 如果filter执行完了，就执行servlet。在写filter时，dofilter方法的最后是调用chain.doFilter(request, response);
+        // 如果filter执行完了，就执行servlet。在写filter时，dofilter方法需要调用chain.doFilter(request, response);
         // 一次调用只能调用一个servlet
         try {
             if (ApplicationDispatcher.WRAP_SAME_OBJECT) {
@@ -532,10 +536,11 @@ final class ApplicationFilterChain implements FilterChain, CometFilterChain {
     void addFilter(ApplicationFilterConfig filterConfig) {
 
         // Prevent the same filter being added multiple times
+        // 即使在web.xml或@filter配置，对同一个filter配置多次，这里依然会进行判断，然后过滤
         for(ApplicationFilterConfig filter:filters)
             if(filter==filterConfig)
                 return;
-
+        // 用数组存储的filter，所以是有序的，按添加顺序从上到下执行
         if (n == filters.length) {
             ApplicationFilterConfig[] newFilters =
                 new ApplicationFilterConfig[n + INCREMENT];
