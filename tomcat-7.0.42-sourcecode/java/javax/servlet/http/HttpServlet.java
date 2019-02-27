@@ -78,6 +78,7 @@ public abstract class HttpServlet extends GenericServlet {
 
     private static final long serialVersionUID = 1L;
 
+    // 定义请求方法
     private static final String METHOD_DELETE = "DELETE";
     private static final String METHOD_HEAD = "HEAD";
     private static final String METHOD_GET = "GET";
@@ -86,6 +87,7 @@ public abstract class HttpServlet extends GenericServlet {
     private static final String METHOD_PUT = "PUT";
     private static final String METHOD_TRACE = "TRACE";
 
+    // 缓存相关
     private static final String HEADER_IFMODSINCE = "If-Modified-Since";
     private static final String HEADER_LASTMOD = "Last-Modified";
 
@@ -167,6 +169,7 @@ public abstract class HttpServlet extends GenericServlet {
      *
      * @see javax.servlet.ServletResponse#setContentType
      */
+    //默认一般不是这个servlet对象，都会是我们自己实现的
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException
     {
@@ -609,6 +612,7 @@ public abstract class HttpServlet extends GenericServlet {
      *
      * @see javax.servlet.Servlet#service
      */
+    // 这个service方法会被所有子servlet调用，通用的
     protected void service(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
 
@@ -619,6 +623,7 @@ public abstract class HttpServlet extends GenericServlet {
             if (lastModified == -1) {
                 // servlet doesn't support if-modified-since, no reason
                 // to go through further expensive logic
+                // 下面这几个方法一般都是重写的，比如springmvc的frameworkservlet重写了这几个方法
                 doGet(req, resp);
             } else {
                 long ifModifiedSince;

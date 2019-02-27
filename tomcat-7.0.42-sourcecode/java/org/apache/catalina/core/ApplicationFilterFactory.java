@@ -142,6 +142,7 @@ public final class ApplicationFilterFactory {
             (((StandardWrapper)wrapper).getInstanceSupport());
 
         // Acquire the filter mappings for this Context
+        // 获取wrapper对应的context的所有的filter
         StandardContext context = (StandardContext) wrapper.getParent();
         FilterMap filterMaps[] = context.findFilterMaps();
 

@@ -1,0 +1,9 @@
+1. servlet对http长连接的支持
+
+websocket的支持理解：
+属于应用层协议，和http一样，底层是tcp
+https://www.cnblogs.com/chyingp/p/websocket-deep-in.html
+
+2. 看书，整理tomcat其他知识，比如集群等
+
+3. 输出
