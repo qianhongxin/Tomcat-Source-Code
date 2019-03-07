@@ -7,3 +7,6 @@ https://www.cnblogs.com/chyingp/p/websocket-deep-in.html
 2. 看书，整理tomcat其他知识，比如集群等
 
 3. 输出
+
+5. connector包下的Request的字段有usingInputStream，一旦流被读过就设置不让读，所以写的wapper需要获取流保存下来。
+重写getInputStream方法，将保存的流再返回回去
