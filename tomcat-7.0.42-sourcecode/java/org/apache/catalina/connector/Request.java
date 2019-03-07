@@ -321,6 +321,7 @@ public class Request
     /**
      * Hash map used in the getParametersMap method.
      */
+    //这里的参数是tomcat帮我们解析好的，如果我们有加密需求，需要自己另外在filter中解析
     protected ParameterMap<String, String[]> parameterMap = new ParameterMap<String, String[]>();
 
 
@@ -2992,6 +2993,7 @@ public class Request
     /**
      * Parse request parameters.
      */
+    //解析请求的参数到paramter
     protected void parseParameters() {
 
         parametersParsed = true;

@@ -49,6 +49,7 @@ public final class Parameters {
     protected static final StringManager sm =
         StringManager.getManager("org.apache.tomcat.util.http");
 
+    //存储解析出来的参数
     private final HashMap<String,ArrayList<String>> paramHashValues =
         new HashMap<String,ArrayList<String>>();
 
@@ -236,6 +237,7 @@ public final class Parameters {
         Charset.forName(DEFAULT_ENCODING);
 
 
+    //解析请求的参数到paramter
     public void processParameters( byte bytes[], int start, int len ) {
         processParameters(bytes, start, len, getCharset(encoding));
     }
