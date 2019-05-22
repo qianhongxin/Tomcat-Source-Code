@@ -31,10 +31,14 @@ import org.apache.tomcat.util.net.SocketWrapper;
  */
 public abstract class AbstractProcessor<S> implements ActionHook, Processor<S> {
 
+    // 通过adapter引用到容器
     protected Adapter adapter;
     protected AsyncStateMachine<S> asyncStateMachine;
+    // 持有endpoint
     protected AbstractEndpoint endpoint;
+    // tomcat的request对象
     protected Request request;
+    // tomcat的response对象
     protected Response response;
 
     

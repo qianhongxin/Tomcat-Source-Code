@@ -82,6 +82,7 @@ public abstract class AbstractProtocol implements ProtocolHandler,
      * ProtocolHandler implementation (ProtocolHandler using BIO, requires BIO
      * Endpoint etc.).
      */
+    // 默认的请求解析，socket解析
     protected AbstractEndpoint endpoint = null;
 
     
@@ -114,6 +115,7 @@ public abstract class AbstractProtocol implements ProtocolHandler,
      * The adapter provides the link between the ProtocolHandler and the
      * connector.
      */
+    // 保存adapter引用，将tomcat request，response 交给容器处理
     protected Adapter adapter;
     @Override
     public void setAdapter(Adapter adapter) { this.adapter = adapter; }
@@ -519,7 +521,7 @@ public abstract class AbstractProtocol implements ProtocolHandler,
     
     
     // ------------------------------------------- Connection handler base class
-    
+    // Connection handler的基础类，有connections字段，持有解析socket的Processor对象
     protected abstract static class AbstractConnectionHandler<S,P extends Processor<S>>
             implements AbstractEndpoint.Handler {
 

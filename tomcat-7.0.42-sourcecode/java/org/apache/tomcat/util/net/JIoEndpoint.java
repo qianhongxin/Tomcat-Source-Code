@@ -77,6 +77,7 @@ public class JIoEndpoint extends AbstractEndpoint {
 
     /**
      * Handling of accepted sockets.
+     * 这个 handler
      */
     protected Handler handler = null;
     public void setHandler(Handler handler ) { this.handler = handler; }
@@ -157,6 +158,7 @@ public class JIoEndpoint extends AbstractEndpoint {
                     long access = socket.getLastAccess();
                     if (socket.getTimeout() > 0 &&
                             (now-access)>socket.getTimeout()) {
+                        // 异步解析 socket，将socket放入解析socket的executor线程池中
                         processSocketAsync(socket,SocketStatus.TIMEOUT);
                     }
                 }
@@ -276,6 +278,7 @@ public class JIoEndpoint extends AbstractEndpoint {
     /**
      * This class is the equivalent of the Worker, but will simply use in an
      * external Executor thread pool.
+     * 封装socket对象，用于解析socket
      */
     protected class SocketProcessor implements Runnable {
 
@@ -295,7 +298,7 @@ public class JIoEndpoint extends AbstractEndpoint {
         @Override
         public void run() {
             boolean launch = false;
-            // 对socket枷锁，减小锁竞争
+            // 对socket枷锁，保证只能有一个线程能处理这个socket
             synchronized (socket) {
                 try {
                     SocketState state = SocketState.OPEN;
@@ -571,6 +574,7 @@ public class JIoEndpoint extends AbstractEndpoint {
         try {
             synchronized (socket) {
                 if (waitingRequests.remove(socket)) {
+                    // 将socket对象封装成runable，即创建 SocketProcessor 对象
                     SocketProcessor proc = new SocketProcessor(socket,status);
                     ClassLoader loader = Thread.currentThread().getContextClassLoader();
                     try {
@@ -583,10 +587,11 @@ public class JIoEndpoint extends AbstractEndpoint {
                             Thread.currentThread().setContextClassLoader(
                                     getClass().getClassLoader());
                         }
-                        // During shutdown, executor may be null - avoid NPE
+                        // During shutdown, executor may be null - avoid NPE null point exception
                         if (!running) {
                             return false;
                         }
+                        // 将 proc 放入线程池。
                         getExecutor().execute(proc);
                         //TODO gotta catch RejectedExecutionException and properly handle it
                     } finally {

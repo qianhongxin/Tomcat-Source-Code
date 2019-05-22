@@ -108,6 +108,7 @@ public abstract class AbstractEndpoint {
 
     /**
      * Will be set to true whenever the endpoint is paused.
+     * 服务启停判断
      */
     protected volatile boolean paused = false;
 

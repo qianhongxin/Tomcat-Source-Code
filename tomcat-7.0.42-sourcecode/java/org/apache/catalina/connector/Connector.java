@@ -217,6 +217,7 @@ public class Connector extends LifecycleMBeanBase  {
 
     /**
      * Coyote protocol handler.
+     * 封装了processor和endpoint两个组件，并保存着adapter引用通往容器组件
      */
     protected ProtocolHandler protocolHandler = null;//Http11Protocol
 

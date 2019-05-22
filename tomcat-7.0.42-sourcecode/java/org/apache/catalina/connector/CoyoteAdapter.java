@@ -56,6 +56,8 @@ import org.apache.tomcat.util.res.StringManager;
  *
  * 实现了request 的处理和代表处理中的连接处理？？？
  *
+ * 适配器模式的使用
+ *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
  * @version $Id: CoyoteAdapter.java 1452797 2013-03-05 14:04:57Z markt $
@@ -680,6 +682,7 @@ public class CoyoteAdapter implements Adapter {
             // Now we have the context, we can parse the session ID from the URL
             // (if any). Need to do this before we redirect in case we need to
             // include the session id in the redirect
+            // 解析sessionid，一种从url后获取sessionid，一种从cookie中获取
             String sessionID = null;
             if (request.getServletContext().getEffectiveSessionTrackingModes()
                     .contains(SessionTrackingMode.URL)) {

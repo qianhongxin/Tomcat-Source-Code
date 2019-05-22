@@ -935,6 +935,7 @@ public abstract class AbstractHttp11Processor<S> extends AbstractProcessor<S> {
                     }
                 }
 
+                // 如果是true，acceptor线程也不接受socket请求了，剩下的的socket请求处理时，这里时true就直接503了
                 if (endpoint.isPaused()) {
                     // 503 - Service unavailable
                     // 503 - 服务暂停
@@ -987,7 +988,7 @@ public abstract class AbstractHttp11Processor<S> extends AbstractProcessor<S> {
                             getLog().debug(message);
                     }
                 }
-                // 400 - Bad Request
+                // 400 - 请求异常    403-参数错误    500-服务抛出异常 。。。。。
                 response.setStatus(400);
                 adapter.log(request, response, 0);
                 error = true;
