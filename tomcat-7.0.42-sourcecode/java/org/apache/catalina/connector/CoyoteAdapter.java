@@ -416,7 +416,7 @@ public class CoyoteAdapter implements Adapter {
                 // ，然后掉用filter，lister，servlet到我们的自己代码等
                 //（container下的组件有管道和阀的概念，这个东西是我们可以在xml配置的，不配置的话有basic阀等
                 // http://www.iocoder.cn/Tomcat/yuliu/A-request-analysis-4-Tomcat-7-valve-mechanism-principle/）
-                connector.getService().getContainer().getPipeline().getFirst().invoke(request, response); // 一个复杂的调用
+                connector.getService().getContainer().getPipeline().getFirst().invoke(request, response); // 一个复杂的调用  fixme here
 
                 if (request.isComet()) {
                     if (!response.isClosed() && !response.isError()) {
