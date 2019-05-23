@@ -17,3 +17,30 @@ https://www.cnblogs.com/chyingp/p/websocket-deep-in.html
 2. 400 - 请求异常    403-参数错误    500-服务抛出异常   501-协议解析出错 505-协议不支持 405-方法不支持 。。。。。
 
 3. coyote包下是解析sokcet的tcpip，http等协议。catalina包下是连接器，容器相关组件代码
+
+4. server组件，在一个tomcat实例中就只有一个。
+StandardServer里有private Service services[] = new Service[0]; 多个service
+一个service只能有一个engine，即service中有一个container字段就是指这个engine，多个engine以后面的为准，覆盖前面的.
+一个engine-》多个host
+一个host -》 多个context
+一个context -》 多个wrapper
+wrapper对应的wrapperValve会分配servlet执行到我们的代码。。
+其中engine，host，context，wrapper的父抽象类是ContainerBase，这个类的字段children，就是持有多个下一级容器。engine的host会从server.xml
+配置文件中加载到engine的children字段中。host的children的值就是我们部署的多个web项目。wrapper的值就是我们写的servlet。
+
+Context 表示一个 Web 应用程序；Wrapper 表示一个 Servlet，一个 Web 应用程序中可能会有多个 Servlet；
+Host 代表的是一个虚拟主机，或者说一个站点，可以给 Tomcat 配置多个虚拟主机地址，而一个虚拟主机下可以部署多个 Web 应用程序；
+Engine 表示引擎，用来管理多个虚拟站点，一个 Service 最多只能有一个 Engine。
+
+你可能好奇，设计了这么多层次的容器，Tomcat 是怎么确定请求是由哪个 Wrapper 容器里的 Servlet 来处理的呢？答案是，Tomcat 是用 Mapper 组件来完成这个任务的。
+Mapper 组件的功能就是将用户请求的 URL 定位到一个 Servlet，它的工作原理是：Mapper 组件里保存了 Web 应用的配置信息，其实就是容器组件与访问路径的映射关系，
+比如 Host 容器里配置的域名、Context 容器里的 Web 应用路径，以及 Wrapper 容器里 Servlet 映射的路径，你可以想象这些配置信息就是一个多层次的 Map。
+当一个请求到来时，Mapper 组件通过解析请求 URL 里的域名和路径，再到自己保存的 Map 里去查找，就能定位到一个 Servlet。请你注意，一个请求 URL 最后只会定位到一个 Wrapper 容器，
+也就是一个 Servlet。
+
+Mapper中如何保存web应用的配置信息和servlet映射的，是从CoyoteAdapter的postParseRequest方法中调用保存的
+
+这些容器都是实现了Container接口，通过组合模式构建在一起。每两个组件之间通过Pipeline关联在一起，Pipiline采用责任链模式，请求在
+Valve中过滤
+
+5. 很多软件都有事件机制，spring，tomcat都有这层设计。tomcat还有生命周期钩子

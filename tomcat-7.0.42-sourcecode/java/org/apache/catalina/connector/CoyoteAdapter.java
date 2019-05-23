@@ -655,9 +655,12 @@ public class CoyoteAdapter implements Adapter {
                 mapRequired = false;
             }
             // This will map the the latest version by default
+            // 解析reqeust的host，context，wrapper
             connector.getMapper().map(serverName, decodedURI, version,
                                       request.getMappingData());
+            // 给请求设置context
             request.setContext((Context) request.getMappingData().context);
+            // 给请求设置wrapper
             request.setWrapper((Wrapper) request.getMappingData().wrapper);
 
             // Single contextVersion therefore no possibility of remap

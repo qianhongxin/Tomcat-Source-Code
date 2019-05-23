@@ -690,6 +690,7 @@ public class Catalina {
 
     /**
      * Start a new server instance.
+     * bootstrap类中会反射调用这个start方法
      */
     public void start() {
 

@@ -443,6 +443,7 @@ public final class Bootstrap {
      * scripts.
      * 通过提供的脚本启动Tomcat时，主要方法和入口点。
      *
+     * 入口总是main方法
      *
      * @param args Command line arguments to be processed
      */

@@ -667,6 +667,8 @@ public final class Mapper {
     /**
      * Map the specified host name and URI, mutating the given mapping data.
      *
+     * 由CoyoteAdapter的postParseRequest方法中调用。将reqeust的host，context，wrapper保存下来，并返回默认值
+     *
      * @param host Virtual host name
      * @param uri URI
      * @param mappingData This structure will contain the result of the mapping
