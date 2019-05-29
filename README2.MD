@@ -99,6 +99,6 @@ Valve中文意思是阀门，Valve是Tomcat中责任链模式的实现，通过�
 ````
 
 
-通过上面的分析，我们发现Server,Service,Engine,Host,Context都实现了org.apache.catalina.Lifecycle接口，
+通过上面的分析，我们发现Server,Service,Engine,Host,Context，Lifecycle都实现了org.apache.catalina.Lifecycle接口，
 通过这个接口管理了这些核心组件的生命周期
 
