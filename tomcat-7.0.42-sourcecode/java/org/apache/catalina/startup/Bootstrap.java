@@ -148,7 +148,7 @@ public final class Bootstrap {
                 // Ignore
             }
 
-            // Local repository
+            // Local repository,可以是具体的jar，文件夹，网络url等，即url
             if (repository.endsWith("*.jar")) {
                 repository = repository.substring
                     (0, repository.length() - "*.jar".length());
@@ -301,6 +301,7 @@ public final class Bootstrap {
             param = new Object[1];
             param[0] = arguments;
         }
+        // catalinaDaemon 就是catalina对象，调用他的 load 方法
         Method method =
             catalinaDaemon.getClass().getMethod(methodName, paramTypes);
         if (log.isDebugEnabled())

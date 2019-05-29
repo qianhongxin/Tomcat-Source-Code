@@ -166,6 +166,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     /**
      * The child Containers belonging to this Container, keyed by name.
      */
+    // 子容器，一个父容器对应多个子容器
     protected HashMap<String, Container> children =
         new HashMap<String, Container>();
 
@@ -225,6 +226,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     /**
      * The parent Container to which this Container is a child.
      */
+    // 当前容器的父容器
     protected Container parent = null;
 
 
@@ -237,6 +239,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     /**
      * The Pipeline object with which this Container is associated.
      */
+    // 父子容器之间的过滤器
     protected Pipeline pipeline = new StandardPipeline(this);
 
 

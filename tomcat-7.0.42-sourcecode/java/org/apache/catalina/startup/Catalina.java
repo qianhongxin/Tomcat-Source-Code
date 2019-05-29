@@ -538,6 +538,7 @@ public class Catalina {
 
     /**
      * Start a new server instance.
+     * 启动一个server实例
      */
     public void load() {
 

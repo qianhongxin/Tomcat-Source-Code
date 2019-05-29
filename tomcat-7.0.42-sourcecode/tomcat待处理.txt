@@ -43,4 +43,4 @@ Mapper中如何保存web应用的配置信息和servlet映射的，是从CoyoteAdapter的postParseRe
 这些容器都是实现了Container接口，通过组合模式构建在一起。每两个组件之间通过Pipeline关联在一起，Pipiline采用责任链模式，请求在
 Valve中过滤
 
-5. 很多软件都有事件机制，spring，tomcat都有这层设计。tomcat还有生命周期钩子
+5. 很多软件都有事件机制，spring，tomcat都有这层设计。tomcat还有生命周期钩子. control c 或者kill -9时，jvm会回掉并停止tomcat

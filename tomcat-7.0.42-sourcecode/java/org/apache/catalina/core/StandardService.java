@@ -101,6 +101,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      * org.apache.catalina.startup.Embedded subclass, this holds the most
      * recently added Engine.)
      */
+    // 包含的容器，engine，一个service对应一个engine
     protected Container container = null;
 
     private ClassLoader parentClassLoader = null;
@@ -439,6 +440,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         setState(LifecycleState.STARTING);
 
         // Start our defined Container first
+        // 启动子容器
         if (container != null) {
             synchronized (container) {
                 container.start();
@@ -452,6 +454,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         }
 
         // Start our defined Connectors second
+        // 启动 连接器
         synchronized (connectors) {
             for (Connector connector: connectors) {
                 try {
@@ -480,7 +483,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     @Override
     protected void stopInternal() throws LifecycleException {
 
-        // Pause connectors first
+        // Pause connectors first 暂停
         synchronized (connectors) {
             for (Connector connector: connectors) {
                 try {

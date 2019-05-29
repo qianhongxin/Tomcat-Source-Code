@@ -106,7 +106,7 @@ final class StandardContextValve extends ValveBase {
             return;
         }
 
-        // Acknowledge the request
+        // Acknowledge the request »∑»œ«Î«Û
         try {
             response.sendAcknowledgement();
         } catch (IOException ioe) {
