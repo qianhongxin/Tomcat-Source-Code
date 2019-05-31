@@ -1118,10 +1118,12 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<Future<Void>>();
         for (int i = 0; i < children.length; i++) {
+            // 利用线程池，异步启动多个context,加快启动速度。这里用的是callable
             results.add(startStopExecutor.submit(new StartChild(children[i])));
         }
 
         boolean fail = false;
+        // 这里会获取启动是否成功，阻塞的
         for (Future<Void> result : results) {
             try {
                 result.get();
@@ -1131,6 +1133,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
             }
 
         }
+        // 发送启动失败的事件
         if (fail) {
             throw new LifecycleException(
                     sm.getString("containerBase.threadedStartFailed"));
