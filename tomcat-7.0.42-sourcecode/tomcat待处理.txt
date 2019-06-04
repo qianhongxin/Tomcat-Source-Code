@@ -44,3 +44,5 @@ Mapper中如何保存web应用的配置信息和servlet映射的，是从CoyoteAdapter的postParseRe
 Valve中过滤
 
 5. 很多软件都有事件机制，spring，tomcat都有这层设计。tomcat还有生命周期钩子. control c 或者kill -9时，jvm会回掉并停止tomcat
+
+6. server，service不是容器，engine，host，context，wrapper才是容器组件，valve也是

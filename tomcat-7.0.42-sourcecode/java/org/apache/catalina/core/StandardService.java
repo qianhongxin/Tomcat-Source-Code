@@ -92,7 +92,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     protected Connector connectors[] = new Connector[0];
     
     /**
-     * 
+     *
      */
     protected ArrayList<Executor> executors = new ArrayList<Executor>();
 
@@ -440,7 +440,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         setState(LifecycleState.STARTING);
 
         // Start our defined Container first
-        // 启动子容器
+        // 同步调用启动容器 engine
         if (container != null) {
             synchronized (container) {
                 container.start();
