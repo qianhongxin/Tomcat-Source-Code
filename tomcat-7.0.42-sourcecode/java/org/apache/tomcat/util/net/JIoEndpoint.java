@@ -591,7 +591,7 @@ public class JIoEndpoint extends AbstractEndpoint {
                         if (!running) {
                             return false;
                         }
-                        // 将 proc 放入线程池。
+                        // 利用endpoint独有的线程池异步执行proc。
                         getExecutor().execute(proc);
                         //TODO gotta catch RejectedExecutionException and properly handle it
                     } finally {

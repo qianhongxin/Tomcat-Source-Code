@@ -218,6 +218,8 @@ public class Connector extends LifecycleMBeanBase  {
     /**
      * Coyote protocol handler.
      * 封装了processor和endpoint两个组件，并保存着adapter引用通往容器组件
+     *
+     * 这个值是需要配置的，server.xml的connector中配置后，xml解析后就会被创建好，不指定默认用的Http11Protocol
      */
     protected ProtocolHandler protocolHandler = null;//Http11Protocol
 
