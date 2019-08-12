@@ -53,7 +53,7 @@ import org.apache.tomcat.util.ExceptionUtils;
  * @Description:
  * 容器内的 Engine、Host、Context、Wrapper 容器组件的实现的共通点：
  *
- * 这些组件内部都有一个成员变量 pipeline ，因为它们都是从org.apache.catalina.core.ContainerBase类继承来的，pipeline 就定义在这个类中。所以每一个容器内部都关联了一个管道。
+ * 这些组件内部都有一个成员变量 pipeline(ps:都有一个) ，因为它们都是从org.apache.catalina.core.ContainerBase类继承来的，pipeline 就定义在这个类中。所以每一个容器内部都关联了一个管道。
  * 都是在类的构造方法中设置管道内的基础阀。
  * 所有的基础阀的实现最后都会调用其下一级容器（直接从请求中获取下一级容器对象的引用，在上面的分析中已经设置了与该请求相关的各级具体组件的引用）的 getPipeline().getFirst().invoke() 方法，直到 Wrapper 组件。因为 Wrapper 是对一个 Servlet 的包装，所以它的基础阀内部调用的过滤器链的 doFilter 方法和 Servlet 的 service 方法。
  * 正是通过这种管道和阀的机制及上述的 3 点前提，使得请求可以从连接器内一步一步流转到具体 Servlet 的 service 方法中。这样，关于Tomcat 7 中一次请求的分析介绍完毕，从中可以看出在浏览器发出一次 Socket 连接请求之后 Tomcat 容器内运转处理的大致流程。
