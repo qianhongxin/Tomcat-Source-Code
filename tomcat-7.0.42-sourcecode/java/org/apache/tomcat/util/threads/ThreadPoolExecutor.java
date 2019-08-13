@@ -170,6 +170,7 @@ public class ThreadPoolExecutor extends java.util.concurrent.ThreadPoolExecutor 
      * accepted for execution - the queue is full
      * @throws NullPointerException if command or unit is null
      */
+    // 重写了线程池的execute方法
     public void execute(Runnable command, long timeout, TimeUnit unit) {
         submittedCount.incrementAndGet();
         try {
@@ -178,6 +179,7 @@ public class ThreadPoolExecutor extends java.util.concurrent.ThreadPoolExecutor 
             if (super.getQueue() instanceof TaskQueue) {
                 final TaskQueue queue = (TaskQueue)super.getQueue();
                 try {
+                    // 强制放入队列
                     if (!queue.force(command, timeout, unit)) {
                         submittedCount.decrementAndGet();
                         throw new RejectedExecutionException("Queue capacity is full.");
